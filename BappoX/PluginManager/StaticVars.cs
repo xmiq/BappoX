@@ -32,5 +32,10 @@ namespace PluginManager
         /// Manager of Data
         /// </summary>
         internal static IDataManager DataManager { get; set; }
+
+        /// <summary>
+        /// Menu Container
+        /// </summary>
+        internal static IMenuContainer MenuContainer { get; set; }
     }
 }

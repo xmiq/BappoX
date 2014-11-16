@@ -45,6 +45,10 @@
     <Compile Include="StaticVars.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataItemSelector\DataItemSelector.csproj">
+      <Project>{9e3b52dd-3a9f-458c-abc4-971414224007}</Project>
+      <Name>DataItemSelector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataManagment\DataManagment.csproj">
       <Project>{fdec7d1a-ae16-4ccd-bc58-5be376cf2df1}</Project>
       <Name>DataManagment</Name>
@@ -60,6 +64,10 @@
     <ProjectReference Include="..\MainForm\MainForm.csproj">
       <Project>{9a27ed46-d71d-47dd-83e3-4389804de365}</Project>
       <Name>MainForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MenuTabs\MenuTabs.csproj">
+      <Project>{91594006-2de6-438c-9fca-06a286542ae2}</Project>
+      <Name>MenuTabs</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

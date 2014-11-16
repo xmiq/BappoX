@@ -1,6 +1,8 @@
-﻿using DataManagment;
+﻿using DataItemSelector;
+using DataManagment;
 using Engine;
 using Interface;
+using MenuTabs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +37,9 @@ namespace PluginManager
             StaticVars.DataManager = new FileDataManager();
             StaticVars.Engine.DataManager = StaticVars.DataManager;
             StaticVars.Engine.Initialize();
+            StaticVars.MenuContainer = new MenuContainer();
+            StaticVars.MenuContainer.Selector = new DIS();
+            StaticVars.MenuContainer.Initialize();
             return StaticVars.MainForm;
         }
     }

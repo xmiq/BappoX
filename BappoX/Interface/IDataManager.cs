@@ -12,13 +12,18 @@ namespace Interface
     public interface IDataManager
     {
         /// <summary>
-        /// Program's Data
+        /// Program's Data.
         /// </summary>
-        List<string> Data { get; set; }
+        Dictionary<string, string[]> Data { get; set; }
 
         /// <summary>
         /// Loads the Data
         /// </summary>
         void InitData();
+
+        /// <summary>
+        /// Loads the Data from the data source
+        /// </summary>
+        void GetData();
     }
 }
