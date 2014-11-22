@@ -1,11 +1,8 @@
-﻿using DataItemSelector;
-using DataManagment;
-using Engine;
-using Interface;
-using MenuTabs;
+﻿using Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -32,15 +29,35 @@ namespace PluginManager
         /// <returns>Main Form</returns>
         public Form Initialize()
         {
-            StaticVars.MainForm = new MainForm.MainForm();
-            StaticVars.Engine = new ProgramEngine(StaticVars.Program);
-            StaticVars.DataManager = new FileDataManager();
+            Dictionary<string, string> dllMapping = new Dictionary<string, string>();
+            Array.ForEach(System.IO.File.ReadAllLines("settings.ini"), (s) => { string[] split = s.Split(':'); dllMapping.Add(split[0], split[1]); });
+            StaticVars.MainForm = GetAssembly<Form>(dllMapping["Display"]);
+            StaticVars.Engine = GetAssembly<IEngine>(dllMapping["Engine"]);
+            StaticVars.DataManager = GetAssembly<IDataManager>(dllMapping["DataManager"]);
             StaticVars.Engine.DataManager = StaticVars.DataManager;
             StaticVars.Engine.Initialize();
-            StaticVars.MenuContainer = new MenuContainer();
-            StaticVars.MenuContainer.Selector = new DIS();
-            StaticVars.MenuContainer.Initialize();
+            StaticVars.MenuContainer = GetAssembly<IMenuContainer>(dllMapping["MenuContainer"]);
+            StaticVars.MenuContainer.Selector = GetAssembly<ISelector>(dllMapping["Selector"]);
+            StaticVars.MainForm.Controls.Add(StaticVars.MenuContainer.Initialize());
             return StaticVars.MainForm;
+        }
+        
+        /// <summary>
+        /// Loads an assembly
+        /// </summary>
+        /// <param name="path">Path to Assembly</param>
+        /// <returns>The Assembly</returns>
+        private T GetAssembly<T>(string path)
+        {
+            AssemblyName an = AssemblyName.GetAssemblyName(path);
+            Assembly assm = Assembly.Load(an);
+            Type[] types = assm.GetTypes();
+            foreach (Type t in types)
+            {
+                T test = (T)Activator.CreateInstance(t);
+                if (test != null) return test;
+            }
+            return default(T);
         }
     }
 }

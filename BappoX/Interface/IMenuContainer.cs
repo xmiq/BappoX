@@ -18,6 +18,11 @@ namespace Interface
         ISelector Selector { get; set; }
 
         /// <summary>
+        /// Menu Container Control
+        /// </summary>
+        Control MenuControl { get; set; }
+
+        /// <summary>
         /// Loads the Menu Container
         /// </summary>
         /// <returns>Menu Container Control</returns>

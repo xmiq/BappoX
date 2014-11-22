@@ -12,6 +12,10 @@ namespace Interface
     /// </summary>
     public interface ISelector
     {
+        /// <summary>
+        /// Loads the Plugin Selector
+        /// </summary>
+        /// <returns>Plugin Selector</returns>
         Control Initialize();
     }
 }

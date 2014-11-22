@@ -13,20 +13,6 @@ namespace Engine
     public class ProgramEngine : IEngine
     {
         /// <summary>
-        /// Initialize the Engine
-        /// </summary>
-        /// <param name="Program">Selected Program</param>
-        public ProgramEngine(string Program)
-        {
-            this.Program = Program;
-        }
-
-        /// <summary>
-        /// The program that the Engine manages
-        /// </summary>
-        private string Program { get; set; }
-
-        /// <summary>
         /// Handler of Data
         /// </summary>
         public IDataManager DataManager { get; set; }
