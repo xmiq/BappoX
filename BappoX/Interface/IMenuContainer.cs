@@ -27,5 +27,10 @@ namespace Interface
         /// </summary>
         /// <returns>Menu Container Control</returns>
         Control Initialize();
+
+        /// <summary>
+        /// Hides all the panels
+        /// </summary>
+        void CollapseAllPanels();
     }
 }

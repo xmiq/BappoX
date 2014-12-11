@@ -35,26 +35,11 @@ namespace MenuTabs
             p.Width = 10;
             p.Height = 110;
             p.MouseEnter += p_MouseEnter;
-            p.MouseLeave += p_MouseLeave;
             p.GotFocus += p_MouseEnter;
-            p.LostFocus += p_MouseLeave;
             Control c = Selector.Initialize();
             p.Controls.Add(c);
             MenuControl = p;
             return p;
-        }
-
-        /// <summary>
-        /// Contracts the Container
-        /// </summary>
-        /// <param name="sender">Panel</param>
-        /// <param name="e">Default Event</param>
-        void p_MouseLeave(object sender, EventArgs e)
-        {
-            if (MenuControl.Width == 35)
-            {
-                for (int i = 0; i < 25; i++) MenuControl.Width--;
-            }
         }
 
         /// <summary>
@@ -67,6 +52,17 @@ namespace MenuTabs
             if (MenuControl.Width == 10)
             {
                 for (int i = 0; i < 25; i++) MenuControl.Width++;
+            }
+        }
+
+        /// <summary>
+        /// Hides all the panels
+        /// </summary>
+        public void CollapseAllPanels()
+        {
+            if (MenuControl.Width == 35)
+            {
+                for (int i = 0; i < 25; i++) MenuControl.Width--;
             }
         }
     }
