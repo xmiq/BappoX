@@ -51,7 +51,9 @@ namespace PluginManager
         {
             AssemblyName an = AssemblyName.GetAssemblyName(path);
             Assembly assm = Assembly.Load(an);
-            return assm.GetTypes().OfType<T>().FirstOrDefault();
+            var v = assm.GetTypes().Where(x => typeof(T).IsAssignableFrom(x));
+            if (v.Any()) return (T)Activator.CreateInstance(v.FirstOrDefault());
+            else return default(T);
         }
     }
 }
