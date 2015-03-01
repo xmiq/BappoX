@@ -17,5 +17,15 @@ namespace Interface
         /// </summary>
         /// <returns>Plugin Selector</returns>
         Control Initialize();
+
+        /// <summary>
+        /// To be called after the list of plugins is filled, this fills the control with the icons
+        /// </summary>
+        void Populate();
+
+        /// <summary>
+        /// List of plugins
+        /// </summary>
+        List<IPlugin> Plugin { get; set; }
     }
 }

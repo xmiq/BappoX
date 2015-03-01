@@ -42,6 +42,8 @@ namespace PluginManager
             StaticVars.MainForm.Controls.Add(StaticVars.MenuContainer.Initialize());
             StaticVars.Plugins = GetAssembly<IPluginLoader>(settings["PluginLoader"]);
             StaticVars.Plugins.Initialize(settings["Plugins"]);
+            StaticVars.MenuContainer.Selector.Plugin = StaticVars.Plugins.Plugins;
+            StaticVars.MenuContainer.Selector.Populate();
             return StaticVars.MainForm;
         }
         

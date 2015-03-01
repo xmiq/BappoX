@@ -23,6 +23,9 @@ namespace MenuTabs
         /// </summary>
         public Control MenuControl { get; set; }
 
+        bool expanded;
+        bool isInChildren;
+
         /// <summary>
         /// Initializer for the Menu Container
         /// </summary>
@@ -34,12 +37,36 @@ namespace MenuTabs
             p.Left = 0;
             p.Width = 10;
             p.Height = 110;
+            p.AutoSize = true;
             p.MouseEnter += p_MouseEnter;
+            p.MouseLeave += p_MouseLeave;
             p.GotFocus += p_MouseEnter;
             Control c = Selector.Initialize();
+            c.Top = 5;
+            c.Left = (c.Width - 10) * -1;
+            c.MouseEnter += c_MouseEnter;
+            c.MouseLeave += c_MouseLeave;
             p.Controls.Add(c);
             MenuControl = p;
+            expanded = false;
+            isInChildren = false;
+            p.BackColor = System.Drawing.Color.Aqua;
             return p;
+        }
+
+        void c_MouseLeave(object sender, EventArgs e)
+        {
+            //isInChildren = false;
+        }
+
+        void c_MouseEnter(object sender, EventArgs e)
+        {
+            isInChildren = true;
+        }
+
+        void p_MouseLeave(object sender, EventArgs e)
+        {
+            if (!isInChildren && expanded) CollapseAllPanels();
         }
 
         /// <summary>
@@ -49,9 +76,14 @@ namespace MenuTabs
         /// <param name="e">Default Event</param>
         void p_MouseEnter(object sender, EventArgs e)
         {
-            if (MenuControl.Width == 10)
+            if (!expanded)
             {
-                for (int i = 0; i < 25; i++) MenuControl.Width++;
+                expanded = true;
+                Control Selector = MenuControl.Controls[0];
+                while (Selector.Left < 5)
+                {
+                    Selector.Left++;
+                }
             }
         }
 
@@ -60,9 +92,15 @@ namespace MenuTabs
         /// </summary>
         public void CollapseAllPanels()
         {
-            if (MenuControl.Width == 35)
+            if (expanded)
             {
-                for (int i = 0; i < 25; i++) MenuControl.Width--;
+                expanded = false;
+                Control Selector = MenuControl.Controls[0];
+                int collapsed = (Selector.Width - 10) * -1;
+                while (Selector.Left > collapsed)
+                {
+                    Selector.Left--;
+                }
             }
         }
     }
