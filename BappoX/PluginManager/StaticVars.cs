@@ -37,5 +37,10 @@ namespace PluginManager
         /// Menu Container
         /// </summary>
         internal static IMenuContainer MenuContainer { get; set; }
+
+        /// <summary>
+        /// Where all the content plugins are kept
+        /// </summary>
+        internal static IPluginLoader Plugins { get; set; }
     }
 }

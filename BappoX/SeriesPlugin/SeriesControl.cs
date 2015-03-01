@@ -62,11 +62,21 @@ namespace SeriesPlugin
         /// </summary>
         public event PluginDelegetes.DeleteDelegete DeleteClicked;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pbOK_Click(object sender, EventArgs e)
         {
             SaveClicked();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pbCancel_Click(object sender, EventArgs e)
         {
             DeleteClicked();

@@ -29,16 +29,19 @@ namespace PluginManager
         /// <returns>Main Form</returns>
         public Form Initialize()
         {
-            Dictionary<string, string> dllMapping = new Dictionary<string, string>();
-            Array.ForEach(System.IO.File.ReadAllLines("settings.ini"), (s) => { string[] split = s.Split(':'); dllMapping.Add(split[0], split[1]); });
-            StaticVars.MainForm = GetAssembly<Form>(dllMapping["Display"]);
-            StaticVars.Engine = GetAssembly<IEngine>(dllMapping["Engine"]);
-            StaticVars.DataManager = GetAssembly<IDataManager>(dllMapping["DataManager"]);
+            Dictionary<string, string> settings = System.IO.File.ReadAllLines("settings.ini")
+                .Select(x => x.Split(':'))
+                .ToDictionary(x => x[0], x => x[1]);
+            StaticVars.MainForm = GetAssembly<Form>(settings["Display"]);
+            StaticVars.Engine = GetAssembly<IEngine>(settings["Engine"]);
+            StaticVars.DataManager = GetAssembly<IDataManager>(settings["DataManager"]);
             StaticVars.Engine.DataManager = StaticVars.DataManager;
             StaticVars.Engine.Initialize();
-            StaticVars.MenuContainer = GetAssembly<IMenuContainer>(dllMapping["MenuContainer"]);
-            StaticVars.MenuContainer.Selector = GetAssembly<ISelector>(dllMapping["Selector"]);
+            StaticVars.MenuContainer = GetAssembly<IMenuContainer>(settings["MenuContainer"]);
+            StaticVars.MenuContainer.Selector = GetAssembly<ISelector>(settings["Selector"]);
             StaticVars.MainForm.Controls.Add(StaticVars.MenuContainer.Initialize());
+            StaticVars.Plugins = GetAssembly<IPluginLoader>(settings["PluginLoader"]);
+            StaticVars.Plugins.Initialize(settings["Plugins"]);
             return StaticVars.MainForm;
         }
         

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataItemSelector", "DataIte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeriesPlugin", "SeriesPlugin\SeriesPlugin.csproj", "{88F45733-C67B-489E-A00F-B1119A4BEFAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataPlugins", "DataPlugins\DataPlugins.csproj", "{DBA0F598-A6B9-4E04-AA17-1E8372F26E64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{88F45733-C67B-489E-A00F-B1119A4BEFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88F45733-C67B-489E-A00F-B1119A4BEFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88F45733-C67B-489E-A00F-B1119A4BEFAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBA0F598-A6B9-4E04-AA17-1E8372F26E64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBA0F598-A6B9-4E04-AA17-1E8372F26E64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBA0F598-A6B9-4E04-AA17-1E8372F26E64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA0F598-A6B9-4E04-AA17-1E8372F26E64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
