@@ -37,6 +37,7 @@ namespace MenuTabs
             p.Width = 10;
             p.Height = 110;
             p.AutoSize = true;
+            p.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             p.MouseEnter += p_MouseEnter;
             p.MouseLeave += p_MouseLeave;
             p.GotFocus += p_MouseEnter;

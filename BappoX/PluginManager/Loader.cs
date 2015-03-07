@@ -33,9 +33,6 @@ namespace PluginManager
                 .Select(x => x.Split(':'))
                 .ToDictionary(x => x[0], x => x[1]);
             StaticVars.MainForm = GetAssembly<Form>(settings["Display"]);
-            StaticVars.Engine = GetAssembly<IEngine>(settings["Engine"]);
-            StaticVars.DataManager = GetAssembly<IDataManager>(settings["DataManager"]);
-            StaticVars.Engine.DataManager = StaticVars.DataManager;
             StaticVars.MenuContainer = GetAssembly<IMenuContainer>(settings["MenuContainer"]);
             StaticVars.MenuContainer.Selector = GetAssembly<ISelector>(settings["Selector"]);
             StaticVars.MainForm.Controls.Add(StaticVars.MenuContainer.Initialize());
@@ -43,6 +40,9 @@ namespace PluginManager
             StaticVars.Plugins.Initialize(settings["Plugins"]);
             StaticVars.MenuContainer.Selector.Plugin = StaticVars.Plugins.Plugins;
             StaticVars.MenuContainer.Selector.Populate();
+            StaticVars.Engine = GetAssembly<IEngine>(settings["Engine"]);
+            StaticVars.DataManager = GetAssembly<IDataManager>(settings["DataManager"]);
+            StaticVars.Engine.DataManager = StaticVars.DataManager;
             StaticVars.Engine.Plugins = StaticVars.Plugins.Plugins;
             StaticVars.Engine.Initialize();
             return StaticVars.MainForm;
@@ -55,11 +55,12 @@ namespace PluginManager
         /// <returns>The Assembly</returns>
         private T GetAssembly<T>(string path)
         {
-            AssemblyName an = AssemblyName.GetAssemblyName(path);
-            Assembly assm = Assembly.Load(an);
-            var v = assm.GetTypes().Where(x => typeof(T).IsAssignableFrom(x));
-            if (v.Any()) return (T)Activator.CreateInstance(v.FirstOrDefault());
-            else return default(T);
+            return Assembly
+                .Load(AssemblyName.GetAssemblyName(path))
+                .GetTypes()
+                .Where(x => typeof(T).IsAssignableFrom(x))
+                .Select(x => (T)Activator.CreateInstance(x))
+                .FirstOrDefault();
         }
     }
 }
