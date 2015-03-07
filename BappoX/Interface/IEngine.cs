@@ -17,6 +17,11 @@ namespace Interface
         IDataManager DataManager { get; set; }
 
         /// <summary>
+        /// The list of plugins used by the program
+        /// </summary>
+        List<IPlugin> Plugins { get; set; }
+
+        /// <summary>
         /// Loads the Engine Components
         /// </summary>
         void Initialize();

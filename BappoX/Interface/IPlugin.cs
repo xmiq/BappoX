@@ -26,5 +26,11 @@ namespace Interface
         /// Add a new Plugin Control to Data
         /// </summary>
         void AddNew();
+
+        /// <summary>
+        /// Takes the text that is saved and converts it to an IPluginControl
+        /// </summary>
+        /// <param name="data">Text to be converted</param>
+        void ParseSaveData(Dictionary<string, string[]> data);
     }
 }

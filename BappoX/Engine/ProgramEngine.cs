@@ -23,6 +23,12 @@ namespace Engine
         public void Initialize()
         {
             DataManager.InitData();
+            Plugins.ForEach(x => x.ParseSaveData(DataManager.Data));
         }
+
+        /// <summary>
+        /// Plugins of the program
+        /// </summary>
+        public List<IPlugin> Plugins { get; set; }
     }
 }

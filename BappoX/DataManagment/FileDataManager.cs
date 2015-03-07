@@ -41,22 +41,16 @@ namespace DataManagment
         /// <param name="path">Path of data</param>
         public void GetData(string path)
         {
-            if (Directory.Exists(path))
-            {
-                if (File.Exists(path + Path.DirectorySeparatorChar + "media.txt"))
-                {
-                    string media = File.ReadAllText(path + Path.DirectorySeparatorChar + "media.txt");
-                    if (!string.IsNullOrEmpty(media)) Array.ForEach(media.Split(','), (s) => Data.Add(s, null));
-                }
-                foreach (string s in Data.Keys)
-                {
-                    if (File.Exists(path + Path.DirectorySeparatorChar + s + ".txt"))
-                    {
-                        string media = File.ReadAllText(path + Path.DirectorySeparatorChar + s + ".txt");
-                        if (!string.IsNullOrEmpty(media)) Data[s] = media.Split(',');
-                    }
-                }
-            }
+            if (Directory.Exists(path) && File.Exists(path + Path.DirectorySeparatorChar + "media.txt"))
+                Data = (File.ReadAllText(path + Path.DirectorySeparatorChar + "media.txt") ?? "")
+                    .Split(',')
+                    .Select(x => new { Name = x, Path = path + Path.DirectorySeparatorChar + x + ".txt" })
+                    .Where(x => File.Exists(x.Path))
+                    .Select(x => new { Name = x.Name, Media = File.ReadAllText(x.Path) })
+                    .Where(x => !String.IsNullOrEmpty(x.Media))
+                    .Select(x => new KeyValuePair<string, string[]>(x.Name, x.Media.Split(',')))
+                    .Concat(Data)
+                    .ToDictionary(x => x.Key, y => y.Value);
         }
 
     }

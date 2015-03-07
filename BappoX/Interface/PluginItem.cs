@@ -17,6 +17,11 @@ namespace Interface
         public Guid ID { get; set; }
 
         /// <summary>
+        /// The owning list of the Item
+        /// </summary>
+        public string List { get; set; }
+
+        /// <summary>
         /// A text based identifier for the user to see in the text files
         /// </summary>
         public string Name { get; set; }

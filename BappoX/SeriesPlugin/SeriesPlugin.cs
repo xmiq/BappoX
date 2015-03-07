@@ -44,5 +44,33 @@ namespace SeriesPlugin
         {
             Data.Add(new SeriesControl());
         }
+
+        /// <summary>
+        /// Takes the text that is saved and converts it to a Series Control
+        /// </summary>
+        /// <param name="data">Text to be converted</param>
+        public void ParseSaveData(Dictionary<string, string[]> data)
+        {
+            ParseSaveData(data, 1);
+        }
+
+        public void ParseSaveData(Dictionary<string, string[]> data, int version)
+        {
+            switch (version)
+            {
+                case 1: Data = Data
+                    .Concat(data
+                        .Select(x => x
+                            .Value
+                            .Select(y => String.Join("|", new string[] { x.Key, y })))
+                        .SelectMany(x => x)
+                        .Select(x => x.Split('|'))
+                        .Where(x => x[1] == "s")
+                        .Select(x => new SeriesItem { ID = Guid.NewGuid(), List = x[0], Name = x[2], Season = Convert.ToInt32(x[3]), Episode = Convert.ToInt32(x[4]) })
+                        .Select(x => new SeriesControl { ControlItem = x }))
+                    .ToList();
+                    break;
+            }
+        }
     }
 }

@@ -36,7 +36,6 @@ namespace PluginManager
             StaticVars.Engine = GetAssembly<IEngine>(settings["Engine"]);
             StaticVars.DataManager = GetAssembly<IDataManager>(settings["DataManager"]);
             StaticVars.Engine.DataManager = StaticVars.DataManager;
-            StaticVars.Engine.Initialize();
             StaticVars.MenuContainer = GetAssembly<IMenuContainer>(settings["MenuContainer"]);
             StaticVars.MenuContainer.Selector = GetAssembly<ISelector>(settings["Selector"]);
             StaticVars.MainForm.Controls.Add(StaticVars.MenuContainer.Initialize());
@@ -44,6 +43,8 @@ namespace PluginManager
             StaticVars.Plugins.Initialize(settings["Plugins"]);
             StaticVars.MenuContainer.Selector.Plugin = StaticVars.Plugins.Plugins;
             StaticVars.MenuContainer.Selector.Populate();
+            StaticVars.Engine.Plugins = StaticVars.Plugins.Plugins;
+            StaticVars.Engine.Initialize();
             return StaticVars.MainForm;
         }
         
