@@ -84,6 +84,14 @@ namespace DataItemSelector
         }
 
         /// <summary>
+        /// Hides all open menus
+        /// </summary>
+        public void Collapse()
+        {
+            if (expanded) pb_Click(p.Controls[0], null);
+        }
+
+        /// <summary>
         /// The list of plugins
         /// </summary>
         public List<IPlugin> Plugin { get; set; }

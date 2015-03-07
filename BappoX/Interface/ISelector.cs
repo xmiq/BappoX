@@ -27,5 +27,10 @@ namespace Interface
         /// List of plugins
         /// </summary>
         List<IPlugin> Plugin { get; set; }
+
+        /// <summary>
+        /// Hides all open menus
+        /// </summary>
+        void Collapse();
     }
 }

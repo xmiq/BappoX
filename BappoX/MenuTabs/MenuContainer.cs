@@ -24,7 +24,6 @@ namespace MenuTabs
         public Control MenuControl { get; set; }
 
         bool expanded;
-        bool isInChildren;
 
         /// <summary>
         /// Initializer for the Menu Container
@@ -44,29 +43,16 @@ namespace MenuTabs
             Control c = Selector.Initialize();
             c.Top = 5;
             c.Left = (c.Width - 10) * -1;
-            c.MouseEnter += c_MouseEnter;
-            c.MouseLeave += c_MouseLeave;
             p.Controls.Add(c);
             MenuControl = p;
             expanded = false;
-            isInChildren = false;
             p.BackColor = System.Drawing.Color.Aqua;
             return p;
         }
 
-        void c_MouseLeave(object sender, EventArgs e)
-        {
-            //isInChildren = false;
-        }
-
-        void c_MouseEnter(object sender, EventArgs e)
-        {
-            isInChildren = true;
-        }
-
         void p_MouseLeave(object sender, EventArgs e)
         {
-            if (!isInChildren && expanded) CollapseAllPanels();
+            if (!(sender as Panel).ClientRectangle.Contains((sender as Panel).PointToClient(Control.MousePosition))) CollapseAllPanels();
         }
 
         /// <summary>
@@ -95,11 +81,12 @@ namespace MenuTabs
             if (expanded)
             {
                 expanded = false;
-                Control Selector = MenuControl.Controls[0];
-                int collapsed = (Selector.Width - 10) * -1;
-                while (Selector.Left > collapsed)
+                Selector.Collapse();
+                Control CSelector = MenuControl.Controls[0];
+                int collapsed = (CSelector.Width - 10) * -1;
+                while (CSelector.Left > collapsed)
                 {
-                    Selector.Left--;
+                    CSelector.Left--;
                 }
             }
         }

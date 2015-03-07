@@ -42,7 +42,11 @@ namespace SeriesPlugin
         /// </summary>
         public void AddNew()
         {
-            Data.Add(new SeriesControl());
+            SeriesControl sc = new SeriesControl();
+            sc.ControlItem.List = "";
+            sc.SaveClicked += sc_SaveClicked;
+            sc.DeleteClicked += sc_DeleteClicked;
+            Data.Add(sc);
         }
 
         /// <summary>
@@ -67,10 +71,20 @@ namespace SeriesPlugin
                         .Select(x => x.Split('|'))
                         .Where(x => x[1] == "s")
                         .Select(x => new SeriesItem { ID = Guid.NewGuid(), List = x[0], Name = x[2], Season = Convert.ToInt32(x[3]), Episode = Convert.ToInt32(x[4]) })
-                        .Select(x => new SeriesControl { ControlItem = x }))
+                        .Select(x => { SeriesControl sc = new SeriesControl { ControlItem = x }; sc.SaveClicked += sc_SaveClicked; sc.DeleteClicked += sc_DeleteClicked; return sc; }))
                     .ToList();
                     break;
             }
+        }
+
+        void sc_SaveClicked()
+        {
+            throw new NotImplementedException();
+        }
+
+        void sc_DeleteClicked()
+        {
+            throw new NotImplementedException();
         }
     }
 }
