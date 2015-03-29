@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Interface
+namespace Interface.Classes
 {
     /// <summary>
     /// The main point for each plugin to pass its data
@@ -19,7 +19,7 @@ namespace Interface
         /// <summary>
         /// The owning list of the Item
         /// </summary>
-        public string List { get; set; }
+        public List<Guid> List { get; set; }
 
         /// <summary>
         /// A text based identifier for the user to see in the text files

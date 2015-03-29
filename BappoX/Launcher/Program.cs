@@ -1,4 +1,4 @@
-﻿using Interface;
+﻿using Interface.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +18,11 @@ namespace Launcher
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Dictionary<string, string> settings = System.IO.File.ReadAllLines("settings.ini")
+            string Loader = System.IO.File.ReadAllLines("settings.ini")
                 .Select(x => x.Split(':'))
-                .ToDictionary(x => x[0], x => x[1]);
-            Application.Run(GetAssembly<ILoader>(settings["Loader"], "Media Organizer").Initialize());
-            //Application.Run(new PluginManager.Loader("Media Organizer").Initialize());
+                .Where(x => x[0] == "Loader")
+                .FirstOrDefault()[1];
+            Application.Run(GetAssembly<ILoader>(Loader, "Media Organizer").Initialize());
         }
 
         /// <summary>
@@ -33,11 +33,12 @@ namespace Launcher
         /// <returns>The Assembly</returns>
         private static T GetAssembly<T>(string path, string parameter)
         {
-            AssemblyName an = AssemblyName.GetAssemblyName(path);
-            Assembly assm = Assembly.Load(an);
-            var v = assm.GetTypes().Where(x => typeof(T).IsAssignableFrom(x));
-            if (v.Any()) return (T)Activator.CreateInstance(v.FirstOrDefault(), parameter);
-            else return default(T);
+            return Assembly
+                .Load(AssemblyName.GetAssemblyName(path))
+                .GetTypes()
+                .Where(x => typeof(T).IsAssignableFrom(x))
+                .Select(x => (T)Activator.CreateInstance(x, parameter))
+                .FirstOrDefault();
         }
     }
 }

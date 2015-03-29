@@ -6,13 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DataItemSelector
+namespace CategoryManagment
 {
-    /// <summary>
-    /// Where plugins are displayed
-    /// </summary>
-    public class DIS : ISelector
+    public class CategorySelector : IListManager
     {
+        /// <summary>
+        /// The program's Engine
+        /// </summary>
+        public IEngine Engine { get; set; }
+
         private Panel p;
         private bool expanded;
 
@@ -62,38 +64,14 @@ namespace DataItemSelector
             }
         }
 
-        /// <summary>
-        /// Adding plugins to control
-        /// </summary>
         public void Populate()
         {
-            Panel secondPanel = p.Controls[1] as Panel;
-            int leftShift = 0;
-            foreach (IPlugin ip in Plugin)
-            {
-                PictureBox pb = new PictureBox();
-                pb.SizeMode = PictureBoxSizeMode.Zoom;
-                pb.Top = 0;
-                pb.Left = leftShift + 5;
-                leftShift += 55;
-                pb.Width = 50;
-                pb.Height = 50;
-                pb.Image = ip.Icon;
-                secondPanel.Controls.Add(pb);
-            }
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Hides all open menus
-        /// </summary>
         public void Collapse()
         {
             if (expanded) pb_Click(p.Controls[0], null);
         }
-
-        /// <summary>
-        /// The list of plugins
-        /// </summary>
-        public List<IPlugin> Plugin { get; set; }
     }
 }

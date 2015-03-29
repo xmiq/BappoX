@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Interface
+namespace Interface.Interfaces
 {
     /// <summary>
     /// Provides the framework for the plugins to use
@@ -13,9 +13,9 @@ namespace Interface
     public interface IPlugin
     {
         /// <summary>
-        /// The plugin data
+        /// Program Engine
         /// </summary>
-        List<IPluginControl> Data { get; set; }
+        IEngine Engine { get; set; }
 
         /// <summary>
         /// The icon to be shown

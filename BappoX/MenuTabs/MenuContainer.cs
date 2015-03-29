@@ -1,4 +1,4 @@
-﻿using Interface;
+﻿using Interface.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +19,16 @@ namespace MenuTabs
         public ISelector Selector { get; set; }
 
         /// <summary>
+        /// Clickable List Manager
+        /// </summary>
+        public IListManager Lists { get; set; }
+
+        /// <summary>
         /// Menu Container Control
         /// </summary>
         public Control MenuControl { get; set; }
 
-        bool expanded;
+        private bool expanded;
 
         /// <summary>
         /// Initializer for the Menu Container
@@ -45,13 +50,17 @@ namespace MenuTabs
             c.Top = 5;
             c.Left = (c.Width - 10) * -1;
             p.Controls.Add(c);
+            c = Lists.Initialize();
+            c.Top = 40;
+            c.Left = (c.Width - 10) * -1;
+            p.Controls.Add(c);
             MenuControl = p;
             expanded = false;
             p.BackColor = System.Drawing.Color.Aqua;
             return p;
         }
 
-        void p_MouseLeave(object sender, EventArgs e)
+        private void p_MouseLeave(object sender, EventArgs e)
         {
             if (!(sender as Panel).ClientRectangle.Contains((sender as Panel).PointToClient(Control.MousePosition))) CollapseAllPanels();
         }
@@ -61,15 +70,17 @@ namespace MenuTabs
         /// </summary>
         /// <param name="sender">Panel</param>
         /// <param name="e">Default Event</param>
-        void p_MouseEnter(object sender, EventArgs e)
+        private void p_MouseEnter(object sender, EventArgs e)
         {
             if (!expanded)
             {
                 expanded = true;
                 Control Selector = MenuControl.Controls[0];
+                Control List = MenuControl.Controls[1];
                 while (Selector.Left < 5)
                 {
                     Selector.Left++;
+                    List.Left++;
                 }
             }
         }
@@ -84,10 +95,12 @@ namespace MenuTabs
                 expanded = false;
                 Selector.Collapse();
                 Control CSelector = MenuControl.Controls[0];
+                Control CList = MenuControl.Controls[1];
                 int collapsed = (CSelector.Width - 10) * -1;
                 while (CSelector.Left > collapsed)
                 {
                     CSelector.Left--;
+                    CList.Left--;
                 }
             }
         }

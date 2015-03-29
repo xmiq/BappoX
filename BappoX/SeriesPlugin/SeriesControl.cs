@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Interface.Classes;
+using Interface.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Interface;
 
 namespace SeriesPlugin
 {
@@ -31,13 +32,18 @@ namespace SeriesPlugin
         public Guid ID;
 
         /// <summary>
+        /// The owning list of the Item
+        /// </summary>
+        public List<Guid> List { get; set; }
+
+        /// <summary>
         /// The TV Series class that this Control Manages
         /// </summary>
         public PluginItem ControlItem
         {
             get
             {
-                return new SeriesItem { ID = ID, Name = txtName.Text, Season = Convert.ToInt32(numSeason.Value), Episode = Convert.ToInt32(numEpisode.Value) };
+                return new SeriesItem { ID = ID, List = this.List, Name = txtName.Text, Season = Convert.ToInt32(numSeason.Value), Episode = Convert.ToInt32(numEpisode.Value) };
             }
             set
             {
@@ -48,6 +54,7 @@ namespace SeriesPlugin
                     txtName.Text = si.Name;
                     numSeason.Value = si.Season;
                     numEpisode.Value = si.Episode;
+                    List = si.List;
                 }
             }
         }
@@ -63,7 +70,7 @@ namespace SeriesPlugin
         public event PluginDelegetes.DeleteDelegete DeleteClicked;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -73,7 +80,7 @@ namespace SeriesPlugin
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

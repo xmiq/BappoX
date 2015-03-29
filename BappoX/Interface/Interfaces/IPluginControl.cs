@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Interface.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Interface
+namespace Interface.Interfaces
 {
     /// <summary>
     /// Provides the interface for Controls that the plugins use
@@ -19,12 +20,17 @@ namespace Interface
         /// <summary>
         /// Called when it is time to save
         /// </summary>
-        event Interface.PluginDelegetes.SaveDelegete SaveClicked;
+        event Interface.Interfaces.PluginDelegetes.SaveDelegete SaveClicked;
 
         /// <summary>
         /// Called when the item is to be deleted
         /// </summary>
-        event Interface.PluginDelegetes.DeleteDelegete DeleteClicked;
+        event Interface.Interfaces.PluginDelegetes.DeleteDelegete DeleteClicked;
+
+        /// <summary>
+        /// The owning list of the Item
+        /// </summary>
+        List<Guid> List { get; set; }
     }
 
     public class PluginDelegetes

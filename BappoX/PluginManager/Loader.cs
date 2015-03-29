@@ -1,4 +1,4 @@
-﻿using Interface;
+﻿using Interface.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,20 +34,22 @@ namespace PluginManager
                 .ToDictionary(x => x[0], x => x[1]);
             StaticVars.MainForm = GetAssembly<Form>(settings["Display"]);
             StaticVars.MenuContainer = GetAssembly<IMenuContainer>(settings["MenuContainer"]);
-            StaticVars.MenuContainer.Selector = GetAssembly<ISelector>(settings["Selector"]);
-            StaticVars.MainForm.Controls.Add(StaticVars.MenuContainer.Initialize());
-            StaticVars.Plugins = GetAssembly<IPluginLoader>(settings["PluginLoader"]);
-            StaticVars.Plugins.Initialize(settings["Plugins"]);
-            StaticVars.MenuContainer.Selector.Plugin = StaticVars.Plugins.Plugins;
-            StaticVars.MenuContainer.Selector.Populate();
             StaticVars.Engine = GetAssembly<IEngine>(settings["Engine"]);
             StaticVars.DataManager = GetAssembly<IDataManager>(settings["DataManager"]);
             StaticVars.Engine.DataManager = StaticVars.DataManager;
+            StaticVars.Plugins = GetAssembly<IPluginLoader>(settings["PluginLoader"]);
+            StaticVars.Plugins.Initialize(settings["Plugins"]);
             StaticVars.Engine.Plugins = StaticVars.Plugins.Plugins;
             StaticVars.Engine.Initialize();
+            StaticVars.MenuContainer.Selector = GetAssembly<ISelector>(settings["Selector"]);
+            StaticVars.MenuContainer.Lists = GetAssembly<IListManager>(settings["ListManager"]);
+            StaticVars.MenuContainer.Lists.Engine = StaticVars.Engine;
+            StaticVars.MainForm.Controls.Add(StaticVars.MenuContainer.Initialize());
+            StaticVars.MenuContainer.Selector.Plugin = StaticVars.Plugins.Plugins;
+            StaticVars.MenuContainer.Selector.Populate();
             return StaticVars.MainForm;
         }
-        
+
         /// <summary>
         /// Loads an assembly
         /// </summary>

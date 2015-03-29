@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Interface
+namespace Interface.Interfaces
 {
     /// <summary>
     /// Provides the framework for the Menu Containers
@@ -16,6 +16,11 @@ namespace Interface
         /// Selector for the plugins
         /// </summary>
         ISelector Selector { get; set; }
+
+        /// <summary>
+        /// Lists of data
+        /// </summary>
+        IListManager Lists { get; set; }
 
         /// <summary>
         /// Menu Container Control

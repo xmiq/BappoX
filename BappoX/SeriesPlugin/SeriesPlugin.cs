@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Interface.Classes;
+using Interface.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Interface;
 
 namespace SeriesPlugin
 {
@@ -12,19 +13,6 @@ namespace SeriesPlugin
     /// </summary>
     public class SeriesPlugin : IPlugin
     {
-        /// <summary>
-        /// Initializer
-        /// </summary>
-        public SeriesPlugin()
-        {
-            Data = new List<IPluginControl>();
-        }
-
-        /// <summary>
-        /// List of Controls that this plugin manages
-        /// </summary>
-        public List<IPluginControl> Data { get; set; }
-
         /// <summary>
         /// The Series Icon
         /// </summary>
@@ -36,6 +24,10 @@ namespace SeriesPlugin
             }
         }
 
+        /// <summary>
+        /// Program Engine
+        /// </summary>
+        public IEngine Engine { get; set; }
 
         /// <summary>
         /// Add a new TV Series to the list
@@ -43,10 +35,13 @@ namespace SeriesPlugin
         public void AddNew()
         {
             SeriesControl sc = new SeriesControl();
-            sc.ControlItem.List = "";
+            List<Guid> CategoryList = new List<Guid>();
+            CategoryList.Add(Engine.CurrentCategory.ID);
+            sc.ControlItem.List = CategoryList;
             sc.SaveClicked += sc_SaveClicked;
             sc.DeleteClicked += sc_DeleteClicked;
-            Data.Add(sc);
+            Engine.CurrentCategory.PluginControls.Add(sc);
+            Engine.CurrentCategory.PluginData.Add(sc.ControlItem);
         }
 
         /// <summary>
@@ -58,31 +53,59 @@ namespace SeriesPlugin
             ParseSaveData(data, 1);
         }
 
+        /// <summary>
+        /// Takes the text that is saved and converts it to a Series Control
+        /// </summary>
+        /// <param name="data">Text to be converted</param>
+        /// <param name="version">Schema Version of the data</param>
         public void ParseSaveData(Dictionary<string, string[]> data, int version)
         {
             switch (version)
             {
-                case 1: Data = Data
-                    .Concat(data
+                case 1: Engine.Data = Engine
+                        .Data
+                        .Concat(data
+                            .Select(x => x.Key)
+                            .Except(Engine.Data.Select(x => x.Value.Name))
+                            .Select(x => new CategoryItem { Name = x, ID = Guid.NewGuid(), PluginControls = new List<IPluginControl>(), PluginData = new List<PluginItem>() })
+                            .ToDictionary(x => x.ID, x => x))
+                        .ToDictionary(x => x.Key, x => x.Value);
+                    foreach (SeriesControl sc in data
+                        .Select(x => new
+                            {
+                                Key = Engine
+                                    .Data
+                                    .Values
+                                    .FirstOrDefault(y => y.Name == x.Key)
+                                    .ID,
+                                Value = x.Value
+                            })
                         .Select(x => x
                             .Value
-                            .Select(y => String.Join("|", new string[] { x.Key, y })))
+                            .Select(y => new { Key = x.Key, Value = y }))
                         .SelectMany(x => x)
-                        .Select(x => x.Split('|'))
-                        .Where(x => x[1] == "s")
-                        .Select(x => new SeriesItem { ID = Guid.NewGuid(), List = x[0], Name = x[2], Season = Convert.ToInt32(x[3]), Episode = Convert.ToInt32(x[4]) })
+                        .Select(x => new { Key = x.Key, Value = x.Value.Split('|') })
+                        .Where(x => x.Value[0] == "s")
+                        .Select(x => new SeriesItem(x.Key) { ID = Guid.NewGuid(), Name = x.Value[1], Season = Convert.ToInt32(x.Value[2]), Episode = Convert.ToInt32(x.Value[3]) })
                         .Select(x => { SeriesControl sc = new SeriesControl { ControlItem = x }; sc.SaveClicked += sc_SaveClicked; sc.DeleteClicked += sc_DeleteClicked; return sc; }))
-                    .ToList();
+                    {
+                        foreach (Guid g in sc.ControlItem.List)
+                        {
+                            CategoryItem ci = Engine.Data[g];
+                            ci.PluginControls.Add(sc);
+                            ci.PluginData.Add(sc.ControlItem);
+                        }
+                    }
                     break;
             }
         }
 
-        void sc_SaveClicked()
+        private void sc_SaveClicked()
         {
             throw new NotImplementedException();
         }
 
-        void sc_DeleteClicked()
+        private void sc_DeleteClicked()
         {
             throw new NotImplementedException();
         }
