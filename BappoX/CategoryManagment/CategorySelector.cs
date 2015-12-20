@@ -10,11 +10,6 @@ namespace CategoryManagment
 {
     public class CategorySelector : IListManager
     {
-        /// <summary>
-        /// The program's Engine
-        /// </summary>
-        public IEngine Engine { get; set; }
-
         private Panel p;
         private bool expanded;
 
@@ -24,27 +19,39 @@ namespace CategoryManagment
         /// <returns>The Control to show</returns>
         public Control Initialize()
         {
-            p = new Panel();
-            p.Width = 30;
-            p.Height = 30;
-            p.AutoSize = true;
-            p.BackColor = System.Drawing.Color.AntiqueWhite;
-            PictureBox pb = new PictureBox();
-            pb.Width = 30;
-            pb.Height = 30;
-            pb.SizeMode = PictureBoxSizeMode.Zoom;
-            pb.Image = Resources.ArrowR;
+            //Create Root Panel (Holds Icon and Plugin Panel)
+            p = new Panel
+            {
+                Width = 30,
+                Height = 30,
+                AutoSize = true,
+                BackColor = System.Drawing.Color.AntiqueWhite
+            };
+
+            //Create PictureBox that displays the icon
+            PictureBox pb = new PictureBox()
+            {
+                Width = 30,
+                Height = 30,
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Image = Resources.ArrowR
+            };
             pb.Click += pb_Click;
             p.Controls.Add(pb);
-            Panel p2 = new Panel();
-            p2.Width = 10;
-            p2.Height = 10;
-            p2.Left = 35;
-            p2.BackColor = System.Drawing.Color.Blue;
-            p2.AutoSize = true;
-            p2.Visible = false;
+
+            //Create Plugin Panel
+            Panel p2 = new Panel
+            {
+                Width = 10,
+                Height = 10,
+                Left = 35,
+                BackColor = System.Drawing.Color.Blue,
+                AutoSize = true,
+                Visible = false
+            };
             p.Controls.Add(p2);
             expanded = false;
+
             return p;
         }
 

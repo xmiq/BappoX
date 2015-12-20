@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Common.StaticVars;
 
 namespace Engine
 {
@@ -14,25 +15,15 @@ namespace Engine
     public class ProgramEngine : IEngine
     {
         /// <summary>
-        /// Handler of Data
-        /// </summary>
-        public IDataManager DataManager { get; set; }
-
-        /// <summary>
         /// Handles all the necessary Loading
         /// </summary>
-        public void Initialize()
+        public ProgramEngine()
         {
             Data = new Dictionary<Guid, CategoryItem>();
             DataManager.InitData();
-            Plugins.ForEach(x => x.Engine = this);
-            Plugins.ForEach(x => x.ParseSaveData(DataManager.Data));
+            Plugins.Plugins.ForEach(x => x.Engine = this);
+            Plugins.Plugins.ForEach(x => x.ParseSaveData(DataManager.Data));
         }
-
-        /// <summary>
-        /// Plugins of the program
-        /// </summary>
-        public List<IPlugin> Plugins { get; set; }
 
         /// <summary>
         /// Formatted Data

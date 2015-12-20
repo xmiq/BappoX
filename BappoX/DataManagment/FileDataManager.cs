@@ -42,7 +42,8 @@ namespace DataManagment
         public void GetData(string path)
         {
             if (Directory.Exists(path) && File.Exists(path + Path.DirectorySeparatorChar + "media.txt"))
-                Data = (File.ReadAllText(path + Path.DirectorySeparatorChar + "media.txt") ?? "")
+                Data = (File
+                    .ReadAllText(path + Path.DirectorySeparatorChar + "media.txt") ?? "")
                     .Split(',')
                     .Select(x => new { Name = x, Path = path + Path.DirectorySeparatorChar + x + ".txt" })
                     .Where(x => File.Exists(x.Path))
@@ -52,6 +53,5 @@ namespace DataManagment
                     .Concat(Data)
                     .ToDictionary(x => x.Key, y => y.Value);
         }
-
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{E12C24B8-FF3B-4645-AFB6-36DD8332D9A0}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataPlugins", "DataPlugins\DataPlugins.csproj", "{DBA0F598-A6B9-4E04-AA17-1E8372F26E64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CategoryManagment", "CategoryManagment\CategoryManagment.csproj", "{24A91E97-D904-43EE-8300-B2C8E3D4F735}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{293862F9-58DE-426E-B5AD-03108C2FAE91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{24A91E97-D904-43EE-8300-B2C8E3D4F735}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A91E97-D904-43EE-8300-B2C8E3D4F735}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A91E97-D904-43EE-8300-B2C8E3D4F735}.Release|Any CPU.Build.0 = Release|Any CPU
+		{293862F9-58DE-426E-B5AD-03108C2FAE91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{293862F9-58DE-426E-B5AD-03108C2FAE91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{293862F9-58DE-426E-B5AD-03108C2FAE91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{293862F9-58DE-426E-B5AD-03108C2FAE91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

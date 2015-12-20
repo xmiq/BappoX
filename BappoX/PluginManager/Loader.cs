@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Common.StaticVars;
+using static Common.Tools;
 
 namespace PluginManager
 {
@@ -17,10 +19,10 @@ namespace PluginManager
         /// <summary>
         /// The initializer for the launching class
         /// </summary>
-        /// <param name="program">The program the Launcher will Initilaize</param>
+        /// <param name="program">The program the Launcher will Initialize</param>
         public Loader(string program)
         {
-            StaticVars.Program = program;
+            Program = program;
         }
 
         /// <summary>
@@ -29,40 +31,16 @@ namespace PluginManager
         /// <returns>Main Form</returns>
         public Form Initialize()
         {
-            Dictionary<string, string> settings = System.IO.File.ReadAllLines("settings.ini")
-                .Select(x => x.Split(':'))
-                .ToDictionary(x => x[0], x => x[1]);
-            StaticVars.MainForm = GetAssembly<Form>(settings["Display"]);
-            StaticVars.MenuContainer = GetAssembly<IMenuContainer>(settings["MenuContainer"]);
-            StaticVars.Engine = GetAssembly<IEngine>(settings["Engine"]);
-            StaticVars.DataManager = GetAssembly<IDataManager>(settings["DataManager"]);
-            StaticVars.Engine.DataManager = StaticVars.DataManager;
-            StaticVars.Plugins = GetAssembly<IPluginLoader>(settings["PluginLoader"]);
-            StaticVars.Plugins.Initialize(settings["Plugins"]);
-            StaticVars.Engine.Plugins = StaticVars.Plugins.Plugins;
-            StaticVars.Engine.Initialize();
-            StaticVars.MenuContainer.Selector = GetAssembly<ISelector>(settings["Selector"]);
-            StaticVars.MenuContainer.Lists = GetAssembly<IListManager>(settings["ListManager"]);
-            StaticVars.MenuContainer.Lists.Engine = StaticVars.Engine;
-            StaticVars.MainForm.Controls.Add(StaticVars.MenuContainer.Initialize());
-            StaticVars.MenuContainer.Selector.Plugin = StaticVars.Plugins.Plugins;
-            StaticVars.MenuContainer.Selector.Populate();
-            return StaticVars.MainForm;
-        }
-
-        /// <summary>
-        /// Loads an assembly
-        /// </summary>
-        /// <param name="path">Path to Assembly</param>
-        /// <returns>The Assembly</returns>
-        private T GetAssembly<T>(string path)
-        {
-            return Assembly
-                .Load(AssemblyName.GetAssemblyName(path))
-                .GetTypes()
-                .Where(x => typeof(T).IsAssignableFrom(x))
-                .Select(x => (T)Activator.CreateInstance(x))
-                .FirstOrDefault();
+            MainForm = GetAssembly<Form>(Settings("Display"));
+            MenuContainer = GetAssembly<IMenuContainer>(Settings("MenuContainer"));
+            Plugins = GetAssembly<IPluginLoader>(Settings("PluginLoader"));
+            DataManager = GetAssembly<IDataManager>(Settings("DataManager"));
+            Engine = GetAssembly<IEngine>(Settings("Engine"));
+            MenuContainer.Selector = GetAssembly<ISelector>(Settings("Selector"));
+            MenuContainer.Lists = GetAssembly<IListManager>(Settings("ListManager"));
+            MainForm.Controls.Add(MenuContainer.Initialize());
+            MenuContainer.Selector.Populate();
+            return MainForm;
         }
     }
 }

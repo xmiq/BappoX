@@ -36,16 +36,21 @@ namespace MenuTabs
         /// <returns></returns>
         public Control Initialize()
         {
-            Panel p = new Panel();
-            p.Top = 20;
-            p.Left = 0;
-            p.Width = 10;
-            p.Height = 110;
-            p.AutoSize = true;
-            p.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            //Initialize background panel
+            Panel p = new Panel
+            {
+                Top = 20,
+                Left = 0,
+                Width = 10,
+                Height = 110,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink
+            };
             p.MouseEnter += p_MouseEnter;
             p.MouseLeave += p_MouseLeave;
             p.GotFocus += p_MouseEnter;
+
+            //Initialize Selector
             Control c = Selector.Initialize();
             c.Top = 5;
             c.Left = (c.Width - 10) * -1;

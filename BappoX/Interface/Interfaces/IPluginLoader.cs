@@ -11,11 +11,6 @@ namespace Interface.Interfaces
     /// </summary>
     public interface IPluginLoader
     {
-        /// <summary>
-        /// Loads all the Plugins
-        /// </summary>
-        void Initialize(string folder);
-
         List<IPlugin> Plugins { get; set; }
     }
 }

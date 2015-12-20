@@ -27,10 +27,5 @@ namespace Interface.Interfaces
         /// Hides all open menus
         /// </summary>
         void Collapse();
-
-        /// <summary>
-        /// The program's Engine
-        /// </summary>
-        IEngine Engine { get; set; }
     }
 }

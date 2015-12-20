@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Common.StaticVars;
 
 namespace DataItemSelector
 {
@@ -22,30 +23,46 @@ namespace DataItemSelector
         /// <returns>The Control to show</returns>
         public Control Initialize()
         {
-            p = new Panel();
-            p.Width = 30;
-            p.Height = 30;
-            p.AutoSize = true;
-            p.BackColor = System.Drawing.Color.AntiqueWhite;
-            PictureBox pb = new PictureBox();
-            pb.Width = 30;
-            pb.Height = 30;
-            pb.SizeMode = PictureBoxSizeMode.Zoom;
-            pb.Image = Resources.ArrowR;
+            //Create Root Panel (Holds Icon and Plugin Panel)
+            p = new Panel
+            {
+                Width = 30,
+                Height = 30,
+                AutoSize = true,
+                BackColor = System.Drawing.Color.AntiqueWhite
+            };
+
+            //Create PictureBox that displays the icon
+            PictureBox pb = new PictureBox()
+            {
+                Width = 30,
+                Height = 30,
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Image = Resources.ArrowR
+            };
             pb.Click += pb_Click;
             p.Controls.Add(pb);
-            Panel p2 = new Panel();
-            p2.Width = 10;
-            p2.Height = 10;
-            p2.Left = 35;
-            p2.BackColor = System.Drawing.Color.Blue;
-            p2.AutoSize = true;
-            p2.Visible = false;
+
+            //Create Plugin Panel
+            Panel p2 = new Panel
+            {
+                Width = 10,
+                Height = 10,
+                Left = 35,
+                BackColor = System.Drawing.Color.Blue,
+                AutoSize = true,
+                Visible = false
+            };
             p.Controls.Add(p2);
             expanded = false;
             return p;
         }
 
+        /// <summary>
+        /// Handles the Click event of the pb control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pb_Click(object sender, EventArgs e)
         {
             if (expanded)
@@ -69,7 +86,7 @@ namespace DataItemSelector
         {
             Panel secondPanel = p.Controls[1] as Panel;
             int leftShift = 0;
-            foreach (IPlugin ip in Plugin)
+            foreach (IPlugin ip in Plugins.Plugins)
             {
                 PictureBox pb = new PictureBox();
                 pb.SizeMode = PictureBoxSizeMode.Zoom;
@@ -90,10 +107,5 @@ namespace DataItemSelector
         {
             if (expanded) pb_Click(p.Controls[0], null);
         }
-
-        /// <summary>
-        /// The list of plugins
-        /// </summary>
-        public List<IPlugin> Plugin { get; set; }
     }
 }
