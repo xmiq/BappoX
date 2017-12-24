@@ -1,4 +1,6 @@
-﻿using Interface.Interfaces;
+﻿using DataManagment.Models;
+using Interface.Interfaces;
+using Interface.Interfaces.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,14 +18,14 @@ namespace DataManagment
         /// <summary>
         /// Program's Data
         /// </summary>
-        public Dictionary<string, string[]> Data { get; set; }
+        public List<IMediaList> Data { get; set; }
 
         /// <summary>
         /// Loads the Data
         /// </summary>
         public void InitData()
         {
-            Data = new Dictionary<string, string[]>();
+            Data = new List<IMediaList>();
             GetData();
         }
 
@@ -41,17 +43,39 @@ namespace DataManagment
         /// <param name="path">Path of data</param>
         public void GetData(string path)
         {
+            /* Check for Version 1 of the Data */
             if (Directory.Exists(path) && File.Exists(path + Path.DirectorySeparatorChar + "media.txt"))
                 Data = (File
                     .ReadAllText(path + Path.DirectorySeparatorChar + "media.txt") ?? "")
                     .Split(',')
-                    .Select(x => new { Name = x, Path = path + Path.DirectorySeparatorChar + x + ".txt" })
+                    .Select(x => new { MediaList = new MediaList { ID = Guid.NewGuid(), Name = x, Items = new List<IDataItem>() }, Path = path + Path.DirectorySeparatorChar + x + ".txt" })
                     .Where(x => File.Exists(x.Path))
-                    .Select(x => new { Name = x.Name, Media = File.ReadAllText(x.Path) })
+                    .Select(x => new { MediaList = x.MediaList, Media = File.ReadAllText(x.Path) })
                     .Where(x => !String.IsNullOrEmpty(x.Media))
-                    .Select(x => new KeyValuePair<string, string[]>(x.Name, x.Media.Split(',')))
+                    .Select(x =>
+                    {
+                        x.MediaList.Items = x.Media.Split(',').Select(y => new DataItem { ID = Guid.NewGuid(), VersionNumber = StorageVersion.Version_1, Version1 = y } as IDataItem).ToList(); x.MediaList.Items.ForEach(y => y.Parents.Add(x.MediaList)); return x.MediaList;
+                    })
                     .Concat(Data)
-                    .ToDictionary(x => x.Key, y => y.Value);
+                    .ToList();
+        }
+
+        /// <summary>
+        /// Creates an empty media list.
+        /// </summary>
+        /// <returns></returns>
+        public IMediaList CreateMediaList()
+        {
+            return new MediaList { ID = Guid.NewGuid() };
+        }
+
+        /// <summary>
+        /// Creates an empty data item.
+        /// </summary>
+        /// <returns></returns>
+        public IDataItem CreateDataItem()
+        {
+            return new DataItem { ID = Guid.NewGuid(), VersionNumber = StorageVersion.Version_2 };
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interface.Interfaces.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Interface.Interfaces
         /// <summary>
         /// Program's Data.
         /// </summary>
-        Dictionary<string, string[]> Data { get; set; }
+        List<IMediaList> Data { get; set; }
 
         /// <summary>
         /// Loads the Data
@@ -25,5 +26,17 @@ namespace Interface.Interfaces
         /// Loads the Data from the data source
         /// </summary>
         void GetData();
+
+        /// <summary>
+        /// Creates an empty media list.
+        /// </summary>
+        /// <returns></returns>
+        IMediaList CreateMediaList();
+
+        /// <summary>
+        /// Creates an empty data item.
+        /// </summary>
+        /// <returns></returns>
+        IDataItem CreateDataItem();
     }
 }

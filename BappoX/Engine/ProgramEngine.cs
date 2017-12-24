@@ -1,5 +1,5 @@
-﻿using Interface.Classes;
-using Interface.Interfaces;
+﻿using Interface.Interfaces;
+using Interface.Interfaces.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,20 +19,16 @@ namespace Engine
         /// </summary>
         public ProgramEngine()
         {
-            Data = new Dictionary<Guid, CategoryItem>();
             DataManager.InitData();
-            Plugins.Plugins.ForEach(x => x.Engine = this);
-            Plugins.Plugins.ForEach(x => x.ParseSaveData(DataManager.Data));
+            foreach (var plugin in Plugins.Plugins)
+            {
+                plugin.ParseSaveData();
+            }
         }
-
-        /// <summary>
-        /// Formatted Data
-        /// </summary>
-        public Dictionary<Guid, CategoryItem> Data { get; set; }
 
         /// <summary>
         /// The selected category
         /// </summary>
-        public CategoryItem CurrentCategory { get; set; }
+        public IMediaList CurrentCategory { get; set; }
     }
 }

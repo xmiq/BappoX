@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interface.Interfaces.Data;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,11 +14,6 @@ namespace Interface.Interfaces
     public interface IPlugin
     {
         /// <summary>
-        /// Program Engine
-        /// </summary>
-        IEngine Engine { get; set; }
-
-        /// <summary>
         /// The icon to be shown
         /// </summary>
         Image Icon { get; }
@@ -30,7 +26,6 @@ namespace Interface.Interfaces
         /// <summary>
         /// Takes the text that is saved and converts it to an IPluginControl
         /// </summary>
-        /// <param name="data">Text to be converted</param>
-        void ParseSaveData(Dictionary<string, string[]> data);
+        void ParseSaveData();
     }
 }

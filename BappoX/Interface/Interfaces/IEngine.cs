@@ -1,4 +1,4 @@
-﻿using Interface.Classes;
+﻿using Interface.Interfaces.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +13,8 @@ namespace Interface.Interfaces
     public interface IEngine
     {
         /// <summary>
-        /// The List of Data in usable format by the program
-        /// </summary>
-        Dictionary<Guid, CategoryItem> Data { get; set; }
-
-        /// <summary>
         /// The category that is currently selected
         /// </summary>
-        CategoryItem CurrentCategory { get; set; }
+        IMediaList CurrentCategory { get; set; }
     }
 }

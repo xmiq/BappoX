@@ -1,5 +1,5 @@
-﻿using Interface.Classes;
-using Interface.Interfaces;
+﻿using Interface.Interfaces;
+using Interface.Interfaces.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,27 +8,15 @@ using System.Threading.Tasks;
 
 namespace SeriesPlugin
 {
-    public class SeriesItem : PluginItem
+    public class SeriesItem : IPluginData
     {
-        public SeriesItem()
-            : base()
-        {
-            List = new List<Guid>();
-        }
-
-        public SeriesItem(Guid IDtoAdd)
-            : base()
-        {
-            List = new List<Guid>();
-            List.Add(IDtoAdd);
-        }
-
-        public SeriesItem(Guid[] IDs)
-            : base()
-        {
-            List = new List<Guid>();
-            List.AddRange(IDs);
-        }
+        /// <summary>
+        /// Gets or sets the name of the series.
+        /// </summary>
+        /// <value>
+        /// The name of the series.
+        /// </value>
+        public string Name { get; set; }
 
         /// <summary>
         /// The currently watching season
@@ -39,5 +27,13 @@ namespace SeriesPlugin
         /// The current episode
         /// </summary>
         public int Episode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent.
+        /// </summary>
+        /// <value>
+        /// The parent.
+        /// </value>
+        public IDataItem Parent { get; set; }
     }
 }

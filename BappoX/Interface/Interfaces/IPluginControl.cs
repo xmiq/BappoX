@@ -1,4 +1,4 @@
-﻿using Interface.Classes;
+﻿using Interface.Interfaces.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,12 @@ namespace Interface.Interfaces
         /// <summary>
         /// The Item that the Control addresses
         /// </summary>
-        PluginItem ControlItem { get; set; }
+        IDataItem ControlItem { get; set; }
+
+        /// <summary>
+        /// Saves the control item.
+        /// </summary>
+        void SaveControlItem();
 
         /// <summary>
         /// Called when it is time to save
@@ -26,11 +31,6 @@ namespace Interface.Interfaces
         /// Called when the item is to be deleted
         /// </summary>
         event Interface.Interfaces.PluginDelegetes.DeleteDelegete DeleteClicked;
-
-        /// <summary>
-        /// The owning list of the Item
-        /// </summary>
-        List<Guid> List { get; set; }
     }
 
     public class PluginDelegetes

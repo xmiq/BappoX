@@ -1,5 +1,5 @@
-﻿using Interface.Classes;
-using Interface.Interfaces;
+﻿using Interface.Interfaces;
+using Interface.Interfaces.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,12 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Common.StaticVars;
 
 namespace SeriesPlugin
 {
     /// <summary>
     /// The visual aid for the TV Series
     /// </summary>
+    /// <seealso cref="System.Windows.Forms.UserControl" />
+    /// <seealso cref="Interface.Interfaces.IPluginControl" />
     public partial class SeriesControl : UserControl, IPluginControl
     {
         /// <summary>
@@ -32,29 +35,28 @@ namespace SeriesPlugin
         public Guid ID;
 
         /// <summary>
-        /// The owning list of the Item
+        /// The control item
         /// </summary>
-        public List<Guid> List { get; set; }
+        private IDataItem controlItem;
 
         /// <summary>
         /// The TV Series class that this Control Manages
         /// </summary>
-        public PluginItem ControlItem
+        public IDataItem ControlItem
         {
             get
             {
-                return new SeriesItem { ID = ID, List = this.List, Name = txtName.Text, Season = Convert.ToInt32(numSeason.Value), Episode = Convert.ToInt32(numEpisode.Value) };
+                return controlItem;
             }
             set
             {
-                if (value is SeriesItem)
+                if (value.PluginData is SeriesItem)
                 {
-                    SeriesItem si = value as SeriesItem;
-                    ID = si.ID;
+                    SeriesItem si = value.PluginData as SeriesItem;
+                    ID = value.ID;
                     txtName.Text = si.Name;
                     numSeason.Value = si.Season;
                     numEpisode.Value = si.Episode;
-                    List = si.List;
                 }
             }
         }
@@ -87,6 +89,25 @@ namespace SeriesPlugin
         private void pbCancel_Click(object sender, EventArgs e)
         {
             DeleteClicked();
+        }
+
+        /// <summary>
+        /// Saves the control item.
+        /// </summary>
+        public void SaveControlItem()
+        {
+            if (controlItem == null)
+            {
+                controlItem = DataManager.CreateDataItem();
+                controlItem.Parents.Add(Engine.CurrentCategory);
+                Engine.CurrentCategory.Items.Add(controlItem);
+            }
+            if (controlItem.PluginData == null)
+                controlItem.PluginData = new SeriesItem { Parent = controlItem };
+            var item = controlItem.PluginData as SeriesItem;
+            item.Name = txtName.Text;
+            item.Season = Convert.ToInt32(numSeason.Value);
+            item.Episode = Convert.ToInt32(numEpisode.Value);
         }
     }
 }

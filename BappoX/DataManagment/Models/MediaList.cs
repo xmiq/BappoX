@@ -1,16 +1,17 @@
-﻿using Interface.Interfaces;
+﻿using Interface.Interfaces.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Interface.Classes
+namespace DataManagment.Models
 {
     /// <summary>
-    /// Holder for the Categories
+    /// Contains the Media Items
     /// </summary>
-    public class CategoryItem
+    /// <seealso cref="Interface.Interfaces.Data.IMediaList" />
+    public class MediaList : IMediaList
     {
         /// <summary>
         /// ID of this Category
@@ -23,13 +24,11 @@ namespace Interface.Classes
         public string Name { get; set; }
 
         /// <summary>
-        /// The PluginItem Associated with this Category
+        /// Gets or sets the items.
         /// </summary>
-        public List<PluginItem> PluginData { get; set; }
-
-        /// <summary>
-        /// The Plugin Controls Associated with this Category
-        /// </summary>
-        public List<IPluginControl> PluginControls { get; set; }
+        /// <value>
+        /// The items.
+        /// </value>
+        public List<IDataItem> Items { get; set; }
     }
 }
