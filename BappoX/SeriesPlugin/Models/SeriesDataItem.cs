@@ -79,6 +79,7 @@ namespace SeriesPlugin.Models
                 {
                     JArray items = value.Properties().Where(x => x.Name == "Type Data").FirstOrDefault().Value as JArray;
                     SeriesItemData = new SeriesItem { Name = items[0].ToString(), Season = Convert.ToInt32(items[1].ToString()), Episode = Convert.ToInt32(items[2].ToString()), Parent = this };
+                    VersionNumber = StorageVersion.Version_2;
                 }
                 else
                     throw new NotSupportedException();
@@ -123,7 +124,7 @@ namespace SeriesPlugin.Models
                 Data = item.Data
             };
 
-            foreach (IMediaList ml in item.Parents)
+            foreach (IMediaList ml in item.Parents.ToList())
             {
                 ml.Items.Remove(item);
                 ml.Items.Add(dataItem);

@@ -77,6 +77,18 @@ namespace DataManagment
         {
             var mediaList = JsonConvert.SerializeObject(Data.Select(x => new { x.ID, x.Name, Items = x.Items.Select(y => y.ID) }));
             var itemList = JsonConvert.SerializeObject(Data.Select(x => x.Items).SelectMany(x => x).GroupBy(x => x.ID).Select(x => x.FirstOrDefault()).Select(x => new { x.ID, x.VersionNumber, x.Data }));
+            foreach (var fi in Directory.EnumerateFiles(path).Select(x => new FileInfo(x)).Where(x => x.Extension == ".txt"))
+                fi.Delete();
+            if (File.Exists(path + Path.DirectorySeparatorChar + "media.json.bak"))
+                File.Delete(path + Path.DirectorySeparatorChar + "media.json.bak");
+            if (File.Exists(path + Path.DirectorySeparatorChar + "media.json"))
+                File.Move(path + Path.DirectorySeparatorChar + "media.json", path + Path.DirectorySeparatorChar + "media.json.bak");
+            if (File.Exists(path + Path.DirectorySeparatorChar + "items.json.bak"))
+                File.Delete(path + Path.DirectorySeparatorChar + "items.json.bak");
+            if (File.Exists(path + Path.DirectorySeparatorChar + "items.json"))
+                File.Move(path + Path.DirectorySeparatorChar + "items.json", path + Path.DirectorySeparatorChar + "items.json.bak");
+            File.WriteAllText(path + Path.DirectorySeparatorChar + "media.json", mediaList);
+            File.WriteAllText(path + Path.DirectorySeparatorChar + "items.json", itemList);
         }
 
         /// <summary>

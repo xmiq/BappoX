@@ -66,16 +66,16 @@ namespace Interface.Interfaces.Data
         /// <summary>
         /// The version used by Media Organizer 2.
         /// </summary>
-        Version_1,
+        Version_1 = 0,
 
         /// <summary>
         /// The version used by BappoX.
         /// </summary>
-        Version_2,
+        Version_2 = 1,
 
         /// <summary>
         /// Other versioning systems.
         /// </summary>
-        CustomVersion
+        CustomVersion = -1
     }
 }
