@@ -1,5 +1,6 @@
 ﻿using Interface.Interfaces;
 using Interface.Interfaces.Data;
+using SeriesPlugin.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -50,9 +51,8 @@ namespace SeriesPlugin
             }
             set
             {
-                if (value.PluginData is SeriesItem)
+                if (value.PluginData is SeriesItem si)
                 {
-                    SeriesItem si = value.PluginData as SeriesItem;
                     ID = value.ID;
                     txtName.Text = si.Name;
                     numSeason.Value = si.Season;

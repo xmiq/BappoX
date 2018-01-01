@@ -1,6 +1,7 @@
 ﻿using Interface.Interfaces;
 using Interface.Interfaces.Data;
 using Newtonsoft.Json.Linq;
+using SeriesPlugin.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,16 +45,9 @@ namespace SeriesPlugin
         /// <param name="version">Schema Version of the data</param>
         public void ParseSaveData()
         {
-            foreach (IDataItem di in DataManager.Data.Select(x => x.Items).SelectMany(x => x).GroupBy(x => x.ID).Select(x => x.First()))
+            foreach (IDataItem di in DataManager.Data.Select(x => x.Items).SelectMany(x => x).GroupBy(x => x.ID).Select(x => x.First()).ToList())
             {
-                if (di.VersionNumber == StorageVersion.Version_1)
-                {
-                    if (di.Data.Value<string>("Type") == "s")
-                    {
-                        JArray items = di.Data.Properties().Where(x => x.Name == "Type Data").FirstOrDefault().Value as JArray;
-                        di.PluginData = new SeriesItem { Name = items[0].ToString(), Season = Convert.ToInt32(items[1].ToString()), Episode = Convert.ToInt32(items[2].ToString()), Parent = di };
-                    }
-                }
+                SeriesDataItem.GetSeriesDataItemFromGeneric(di);
             }
         }
 

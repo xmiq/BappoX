@@ -28,6 +28,11 @@ namespace Interface.Interfaces
         void GetData();
 
         /// <summary>
+        /// Saves the Data to the data source.
+        /// </summary>
+        void SaveData();
+
+        /// <summary>
         /// Creates an empty media list.
         /// </summary>
         /// <returns></returns>

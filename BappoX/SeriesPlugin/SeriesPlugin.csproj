@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\SeriesDataItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -57,7 +58,7 @@
     <Compile Include="SeriesControl.Designer.cs">
       <DependentUpon>SeriesControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="SeriesItem.cs" />
+    <Compile Include="Models\SeriesItem.cs" />
     <Compile Include="SeriesPlugin.cs" />
   </ItemGroup>
   <ItemGroup>

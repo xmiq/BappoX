@@ -1,6 +1,7 @@
 ﻿using DataManagment.Models;
 using Interface.Interfaces;
 using Interface.Interfaces.Data;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +41,7 @@ namespace DataManagment
         /// <summary>
         /// Data Load Method
         /// </summary>
-        /// <param name="path">Path of data</param>
+        /// <param name="path">The path of data.</param>
         public void GetData(string path)
         {
             /* Check for Version 1 of the Data */
@@ -58,6 +59,24 @@ namespace DataManagment
                     })
                     .Concat(Data)
                     .ToList();
+        }
+
+        /// <summary>
+        /// Saves the Data to the data source.
+        /// </summary>
+        public void SaveData()
+        {
+            SaveData("items");
+        }
+
+        /// <summary>
+        /// Saves the Data to the data source.
+        /// </summary>
+        /// <param name="path">The path of the data.</param>
+        public void SaveData(string path)
+        {
+            var mediaList = JsonConvert.SerializeObject(Data.Select(x => new { x.ID, x.Name, Items = x.Items.Select(y => y.ID) }));
+            var itemList = JsonConvert.SerializeObject(Data.Select(x => x.Items).SelectMany(x => x).GroupBy(x => x.ID).Select(x => x.FirstOrDefault()).Select(x => new { x.ID, x.VersionNumber, x.Data }));
         }
 
         /// <summary>

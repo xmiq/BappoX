@@ -60,6 +60,12 @@ namespace DataManagment.Models
         /// </value>
         public Guid ID { get; set; }
 
+        /// <summary>
+        /// Gets the Parent Lists.
+        /// </summary>
+        /// <value>
+        /// The Parent Lists.
+        /// </value>
         public List<IMediaList> Parents { get; } = new List<IMediaList>();
     }
 }
